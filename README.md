@@ -60,4 +60,4 @@ python3 main.py
 5. View results
 
 - Output prints to terminal
-- Also saved as `output.json` in the `Submission` folder.
+- Also saved as `output.json` in the `Submission` folder
