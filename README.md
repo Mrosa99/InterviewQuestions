@@ -18,6 +18,9 @@ This Python script reads employee punch data and job metadata from JSON files in
 ## How to Run
 
 1. Clone the repository
+<pre>
+git clone https://github.com/Mrosa99/InterviewQuestions.git
+</pre>
 
 2. Change directory to `Submission`
 
@@ -60,4 +63,4 @@ python3 main.py
 5. View results
 
 - Output prints to terminal
-- Also saved as `output.json` in the `Submission` folder
+- Also saved as `output.json` in the `Submission` folder.
