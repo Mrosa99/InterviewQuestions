@@ -31,19 +31,35 @@ def read_JSON(folder_path):
 def calculate_pay(job_meta, employee_punches):
     """
     Processes employee punches and job metadata to calculate pay.
-    output = {}
     """
-    print(json.dumps(job_meta, indent=2))
+    output = {}
+
+    # print(json.dumps(job_meta, indent=2))  # Remove After
     for emp in employee_punches:
         employee_name = emp["employee"]
-        print(employee_name)
+        total_hours = 0.0
 
         for tp in emp["timePunch"]:
             s = datetime.strptime(tp["start"], "%Y-%m-%d %H:%M:%S")
             e = datetime.strptime(tp["end"], "%Y-%m-%d %H:%M:%S")
             hrs_worked = round((e - s).total_seconds() / 3600.0, 4)
-            print(hrs_worked)
-        print()
+            # print(hrs_worked)  # Remove After
+
+            job = tp["job"]
+            job_info = [j for j in job_meta if j["job"] == job][0]
+
+            rate = job_info["rate"]
+            ben_rate = job_info["benefitsRate"]
+
+        # print()  # Remove After
+
+        # Store results for this employee
+        output[employee_name] = {
+            "employee": employee_name,
+        }
+
+    for emp, data in output.items():
+        print(f"{emp}: {data}")
 
 
 if __name__ == "__main__":
