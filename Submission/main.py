@@ -38,12 +38,13 @@ def calculate_pay(job_meta, employee_punches):
     for emp in employee_punches:
         employee_name = emp["employee"]
         total_hours = 0.0
+        regular_hours = 0.0
+        wage_total = 0.0
 
         for tp in emp["timePunch"]:
             s = datetime.strptime(tp["start"], "%Y-%m-%d %H:%M:%S")
             e = datetime.strptime(tp["end"], "%Y-%m-%d %H:%M:%S")
             hrs_worked = round((e - s).total_seconds() / 3600.0, 4)
-            # print(hrs_worked)  # Remove After
 
             job = tp["job"]
             job_info = [j for j in job_meta if j["job"] == job][0]
@@ -51,15 +52,21 @@ def calculate_pay(job_meta, employee_punches):
             rate = job_info["rate"]
             ben_rate = job_info["benefitsRate"]
 
-        # print()  # Remove After
+            unprocessed_hours = hrs_worked
+
+            if total_hours < 40:
+                regular_hrs_available = min(40 - total_hours, unprocessed_hours)
+                regular_hours += regular_hrs_available
+                wage_total += regular_hrs_available * rate
 
         # Store results for this employee
         output[employee_name] = {
             "employee": employee_name,
+            "regular": f"{regular_hours:.4f}",
+            "wageTotal": f"{wage_total:.4f}",
         }
 
-    for emp, data in output.items():
-        print(f"{emp}: {data}")
+    print(json.dumps(output, indent=2))
 
 
 if __name__ == "__main__":
