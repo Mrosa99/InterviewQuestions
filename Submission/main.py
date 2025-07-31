@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 
 def read_JSON():
@@ -16,10 +17,22 @@ def read_JSON():
 
 def calculate_pay(job_meta, employee_punches):
     """
-    Receives job metadata and employee punches.
+    Processes employee punches and job metadata to calculate pay.
+    Outputs the results in a dictionary for each employee.
     """
+    output = {}
+
     print(json.dumps(job_meta, indent=2))
-    print(json.dumps(employee_punches, indent=2))
+    for emp in employee_punches:
+        employee_name = emp["employee"]
+        print(employee_name)
+
+        for tp in emp["timePunch"]:
+            s = datetime.strptime(tp["start"], "%Y-%m-%d %H:%M:%S")
+            e = datetime.strptime(tp["end"], "%Y-%m-%d %H:%M:%S")
+            shift_duration = round((e - s).total_seconds() / 3600.0, 4)
+            print(shift_duration)
+        print()
 
 
 if __name__ == "__main__":
