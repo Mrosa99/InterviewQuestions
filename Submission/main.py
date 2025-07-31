@@ -34,12 +34,14 @@ def calculate_pay(job_meta, employee_punches):
     """
     output = {}
 
-    # print(json.dumps(job_meta, indent=2))  # Remove After
     for emp in employee_punches:
         employee_name = emp["employee"]
         total_hours = 0.0
         regular_hours = 0.0
+        ot_hours = 0.0
+        dt_hours = 0.0
         wage_total = 0.0
+        benefit_total = 0.0
 
         for tp in emp["timePunch"]:
             s = datetime.strptime(tp["start"], "%Y-%m-%d %H:%M:%S")
@@ -54,16 +56,41 @@ def calculate_pay(job_meta, employee_punches):
 
             unprocessed_hours = hrs_worked
 
+            # Process regular hours left before 48-hour cap
             if total_hours < 40:
-                regular_hrs_available = min(40 - total_hours, unprocessed_hours)
-                regular_hours += regular_hrs_available
-                wage_total += regular_hrs_available * rate
+                regular_hours_to_add = min(40 - total_hours, unprocessed_hours)
+                regular_hours += regular_hours_to_add
+                wage_total += regular_hours_to_add * rate
+                benefit_total += regular_hours_to_add * ben_rate
+                total_hours += regular_hours_to_add
+                unprocessed_hours -= regular_hours_to_add
+
+            # Process overtime hours left before 48-hour cap
+            ot_hours_available = 48 - total_hours
+            if unprocessed_hours > 0 and ot_hours_available > 0:
+                ot_hours_to_add = min(ot_hours_available, unprocessed_hours)
+                ot_hours += ot_hours_to_add
+                wage_total += ot_hours_to_add * rate * 1.5
+                benefit_total += ot_hours_to_add * ben_rate
+                total_hours += ot_hours_to_add
+                unprocessed_hours -= ot_hours_to_add
+
+            # Process anything about 48 hours
+            if unprocessed_hours > 0:
+                dt_hours += unprocessed_hours
+                wage_total += unprocessed_hours * rate * 2
+                benefit_total += unprocessed_hours * ben_rate
+                total_hours += unprocessed_hours
+                unprocessed_hours = 0
 
         # Store results for this employee
         output[employee_name] = {
             "employee": employee_name,
             "regular": f"{regular_hours:.4f}",
+            "overtime": f"{ot_hours:.4f}",
+            "doubletime": f"{dt_hours:.4f}",
             "wageTotal": f"{wage_total:.4f}",
+            "benefitTotal": f"{benefit_total:.4f}",
         }
 
     print(json.dumps(output, indent=2))
