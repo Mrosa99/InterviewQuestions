@@ -1,6 +1,6 @@
 # Payroll Calculator
 
-This Python script reads employee punch data and job metadata from JSON files in a specified folder, calculates pay (regular, overtime, doubletime hours and wages), and outputs a combined summary for all employees across all files.
+This Python script reads employee punch data and job metadata from JSON files in a specified folder, calculates pay (regular, overtime, doubletime hours and wages), and outputs a combined summary for all employees.
 
 ---
 
