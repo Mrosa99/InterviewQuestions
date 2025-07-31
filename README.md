@@ -1,15 +1,63 @@
-# Interview Questions for eBacon
-## About This document
-Thank you for taking time to consider eBacon as your next development home! As part of our interview process, we ask that you do one, or more, of our tests inside of this repo. Then show us your answers during your second and third round of interviews. During the interview you will be asked to clearly explain how you solved the problem.
+# Payroll Calculator
 
-## About Us
-eBacon is a software company that focuses on certified payroll and fringe benefit management for the construction industry. Our software solutions combine time tracking, fringe management, payroll and certified reporting to help contractors and subcontractors avoid risk and become more profitable. Check out our Career Page for more details.
+This Python script reads employee punch data and job metadata from JSON files in a specified folder, calculates pay (regular, overtime, doubletime hours and wages), and outputs a combined summary for all employees.
 
-## How to Turn in your Test
-Turn in your test, email a link to your public github repo to jess@eBacon.com. Make sure to add a readme file with instructions on how to run/execute your code.
+---
 
-## Have you Found an Issue?
-If something is unclear, confusing, or downright stupid please tell us! You can email Jess (jess@eBacon.com) as mentioned above or you can mention it during the interview.
+## Features
 
-## Why do we do a Take Home Test?
-At eBacon we do not believe you do your best work while 'under the gun'. Instead we want you to show us what kind of work you can do given more room to think and come up with a solution.
+- Processes multiple JSON files in a folder.
+- Calculates:
+  - Regular hours (up to 40 hours at base rate).
+  - Overtime hours (40 to 48 hours at 1.5x rate).
+  - Doubletime hours (above 48 hours at 2x rate).
+  - Total wage and benefit costs.
+
+---
+
+## How to Run
+
+1. Clone the repository
+
+2. Change directory to `Submission`
+
+<pre>
+cd Submission
+</pre>
+
+3. (Highly recommended) Create and activate a virtual environment:
+
+<pre>
+python -m venv venv
+</pre>
+
+- On Windows, activate with:
+
+<pre>
+venv\Scripts\activate
+</pre>
+
+- On macOS/Linux, activate with:
+
+<pre>
+source venv/bin/activate
+</pre>
+
+4. Run the script
+
+- On Windows, activate with:
+
+<pre>
+python main.py
+</pre>
+
+- On macOS/Linux, activate with:
+
+<pre>
+python3 main.py
+</pre>
+
+5. View results
+
+- Output prints to terminal
+- Also saved as `output.json` in the `Submission` folder
